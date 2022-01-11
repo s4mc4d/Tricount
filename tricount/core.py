@@ -25,9 +25,20 @@ class Contributor:
     #         return self.uid==__o.uid
 
     def __hash__(self) -> int:
+        """Enables to use as a unique key in dict and groupby options
+
+        Returns
+        -------
+        int
+            Based on the hash of uid in order to make it unique
+        """
         return hash(self.uid)
     
     def __post_init__(self):
+        """Constructs the uid property via uuid4 after init generation
+        This function is needed as otherwise the uid will be the same for all contributors
+        That is why we use init=False in field method.
+        """
         self.uid = uuid4()
 
 class Transaction:
