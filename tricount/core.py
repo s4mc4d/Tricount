@@ -43,11 +43,17 @@ class Contributor:
 
 class Transaction:
     
-    def __init__(self, amount, who : Contributor, contributors : List[Contributor] = None) -> None:
+    def __init__(self, amount : float, who : Contributor, contributors : List[Contributor] = None) -> None:
         self._type = "expense"  # by default : expense
         self._id = uuid4()
-        self._amount = amount
-        self._owner = who
+        
+        if isinstance(amount,float):
+            self._amount = amount
+        else:
+            raise TypeError("Transaction is not valid.")
+
+        self._owner = who        
+        
         if contributors is None:
             self._contributors = []
         else:
@@ -75,6 +81,10 @@ class Transaction:
         return self._owner
 
     @property
+    def contributors(self):
+        return self._contributors
+
+    @property
     def balance(self):
         return self._balance()
 
@@ -100,6 +110,9 @@ class Transaction:
 
 
 class Expenses:
+    """Stores a collection of transactions and associated methods to manage equilibrium
+    """
+    
     def __init__(self,transactions : List[Transaction]) -> None:
         if len(transactions):
             self._transactions = transactions
