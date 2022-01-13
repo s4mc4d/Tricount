@@ -47,7 +47,6 @@ class Transaction:
         self._type = "expense"  # by default : expense
         self._id = uuid4()
         
-        # if isinstance(amount,int):
         try:
             self._amount = float(amount)
         except:
@@ -150,6 +149,7 @@ class Expenses:
 
     def generate_simplified_owings(self):
         # returns dataframe of transactions to perform for equilibrium
+        # to be improved, as too many transfers are generated
         
         df_start = self.generate_detailed_owings()
 
@@ -216,9 +216,9 @@ def generate_random_scenario(number_of_contributors=5,
     contribs = set()
     i=0
     while i<number_of_contributors:
-        f = faker.Faker(["fr-FR","en-US"])
+        f = faker.Faker(["fr-FR","en-US"])  # generate profiles from France or USA
         p = Contributor(name=f.name(),email=f.email())
-        # all_names = [item.name for item in contribs if item]
+        
         if p not in contribs:
             contribs.add(p)
             i = len(contribs)
@@ -260,8 +260,8 @@ def generate_simple_scenario():
     return data
 
 if __name__=="__main__":
-    # e = generate_simple_scenario()
-    e = generate_random_scenario(20,200)
+    e = generate_simple_scenario()
+    # e = generate_random_scenario(20,200)
     e.bilan()
     df = e.generate_detailed_owings()
 
