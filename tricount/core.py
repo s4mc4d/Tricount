@@ -47,9 +47,10 @@ class Transaction:
         self._type = "expense"  # by default : expense
         self._id = uuid4()
         
-        if isinstance(amount,float):
-            self._amount = amount
-        else:
+        # if isinstance(amount,int):
+        try:
+            self._amount = float(amount)
+        except:
             raise TypeError("Transaction is not valid.")
 
         self._owner = who        
@@ -259,9 +260,8 @@ def generate_simple_scenario():
     return data
 
 if __name__=="__main__":
-
     # e = generate_simple_scenario()
-    e = generate_random_scenario(20,100)
+    e = generate_random_scenario(20,200)
     e.bilan()
     df = e.generate_detailed_owings()
 
